@@ -4,6 +4,7 @@
 #include "problem.hpp"
 #include <cstdio>
 #include <string>
+#include <algorithm>
 
 int main(int argc, char* argv[])
 	{
@@ -18,19 +19,19 @@ int main(int argc, char* argv[])
 		KnapFill::Problem problem;
 		problem.values(KnapFill::DataSet(argv[1])); //Load problem data
 
-		argv-=2; // Skip program name and dataset file
+		argc-=2; // Skip program name and dataset file
+		argv+=2;
 
-		while(argv!=0)
+		while(argc!=0)
 			{
-			auto capacity = atoi(arg[0]);
+			auto capacity = atoi(argv[0]);
 			auto solution=problem.capacity(capacity).solution();
-			printf("Solution for %d\n    Value Count", capacity);
-			std::for_each(solution.begin(), solution.end(),[](auto item)
-				{
-				printf("    %d %d\n",item.value, item.count);
-				});
-			putchar('\n')
-			--argv;
+			printf("Solution for %d\n    Value Count\n", capacity);
+			std::for_each(solution, solution + problem.size().n_values, [](auto item)
+				{printf("    %d %d\n",item.value, item.count);});
+			putchar('\n');
+			--argc;
+			++argv;
 			}
 		}
 	catch(const std::string& message)

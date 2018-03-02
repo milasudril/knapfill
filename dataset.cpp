@@ -38,18 +38,21 @@ namespace
 				auto ch_in=getc(stream);
 				if(ch_in==EOF)
 					{
-					data.push_back(std::stoi(buffer));
+					if(buffer.size()!=0)
+						{data.push_back(std::stoi(buffer));}
 					return;
 					}
 
 				if(ch_in>=0 && ch_in<=' ')
 					{
-					data.push_back(std::stoi(buffer));
-					buffer.clear();
-					return;
+					if(buffer.size()!=0)
+						{
+						data.push_back(std::stoi(buffer));
+						buffer.clear();
+						}
 					}
-
-				buffer+=ch_in;
+				else
+					{buffer += ch_in;}
 				}
 			}
 		catch(const std::exception& err)
